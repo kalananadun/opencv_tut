@@ -1,20 +1,35 @@
 # script python 
 import cv2 as cv  #import the dependencies 
 
-# loading the video to the script 
+# resize and rescale the images 
+# img = cv.imread("./images/image.png")
+# cv.imshow("original image",img) # display the image
+# Rescale the image 
+# modifying the height and width of the image 
 
-# capture = cv.VideoCapture(0) # 0 is for the default camera 
-capture = cv.VideoCapture("./videos/video1.mp4") 
+#function to rescale the image 
+def rescaleFrame(frame, scale=0.75):
+    width = int(frame.shape[1]*scale) # rescaling the width of the image 
+    height =int(frame.shape[0]*scale) # rescaling the height of the image 
+    dimensions = (width , height) # tuple to store the dimension of the image 
+    return cv.resize(frame,dimensions,interpolation=cv.INTER_AREA) # pass the resized image 
+
+
+# resized_image = rescaleFrame(img) 
+# cv.imshow("Scaled image",resized_image) 
+
+# reading the video 
+capture = cv.VideoCapture("./videos/video1.mp4")
 
 while True:
-    isTrue, frame = capture.read() # read the video frame at a time 
-    cv.imshow("video1",frame) # 
+    isTrue, frame = capture.read()
+    frame_resized = rescaleFrame(frame)
+    cv.imshow("original scene",frame)
+    cv.imshow("Resized scene",frame_resized)
 
-    if cv.waitKey(20) & 0xFF==ord('d'):
+    if cv.waitKey(20) & 0xFF == ord('d'):
         break
 
-capture.release() 
-cv.destroyAllWindows()
 
-# cv.waitKey(0) # wait for the key to be pressed 
-# -215 error is about video file ran out of frames or could not find the video file 
+capture.release() # release the video capture object
+cv.destroyAllWindows() # destroy all the windows
