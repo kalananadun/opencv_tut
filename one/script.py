@@ -7,6 +7,12 @@ import cv2 as cv  #import the dependencies
 # Rescale the image 
 # modifying the height and width of the image 
 
+# function to modify the resolution of the image dpi level 
+def changeResolution(width,height):
+    # change resolution function only works with live videos 
+    capture.set(3,width) # set the width of the image
+    capture.set(4,height) # set the height of the image
+    
 #function to rescale the image 
 def rescaleFrame(frame, scale=0.75):
     width = int(frame.shape[1]*scale) # rescaling the width of the image 
